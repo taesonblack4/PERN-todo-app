@@ -7,11 +7,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+//return todos
 app.get('/todos', async (req, res) => {
     const todos = await prisma.todo.findMany();
     res.json(todos);
 });
 
+//create todos
 app.post('/todos', async (req, res) => {
     const { title } = req.body;
     const todo = await prisma.todo.create({
@@ -20,7 +22,7 @@ app.post('/todos', async (req, res) => {
     res.json(todo);
 });
 
-
+//update todos
 app.put('/todos/:id', async (req,res) => {
     const { id } = req.params;
     const {title, completed} = req.body;
@@ -32,6 +34,7 @@ app.put('/todos/:id', async (req,res) => {
     res.json(todo);
 });
 
+//delete todos
 app.delete('/todos/:id', async (req, res) => {
     const {id} = req.params;
     await prisma.todo.delete({
